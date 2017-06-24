@@ -1,0 +1,33 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Git Hub",
+		"_postman_id": "947cc490-21dc-a8fa-7d23-4ca4002f42f3",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://api.github.com/repos/:owner/:repo/contributors",
+			"request": {
+				"url": "https://api.github.com/repos/php-memcached-dev/php-memcached/contributors",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "https://api.github.com/users/:user",
+			"request": {
+				"url": "https://api.github.com/users/CassianoCarraro",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
