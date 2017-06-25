@@ -1,4 +1,4 @@
-@font-face { font-family: Collegia; src: url('vendor/collegia-font/collegia.ttf'); } 
+@font-face { font-family: Collegia; src: url('vendor/collegia-font/collegia.ttf'); }
 
 body {
 	margin: 0;
@@ -39,14 +39,24 @@ html {
 	font-size: 14px;
 }
 
+.error-msg span,
 .input-search input[type="text"] {
-    border: 2px solid #323131;
-    height: 32px;
-    width: 250px;
-    font-family: Collegia;
-    font-size: 18px;
-    padding-left: 5px;
-    padding-right: 14px;
+	font-family: Collegia;
+	font-size: 18px;
+	height: 32px;
+	width: 250px;
+}
+
+.input-search input[type="text"] {
+	border: 2px solid #323131;
+	padding-right: 14px;
+	padding-left: 5px;
+}
+
+.error-msg {
+	color: 	#d62d20;
+	margin-top: 19px;
+	margin-left: 5px;
 }
 
 .search-button {
@@ -63,11 +73,11 @@ html {
 
 .descricao-busca {
 	display: inline-block;
-    margin-left: 370px;
+	margin-left: 370px;
 }
 
 #map {
 	display: inline-block;
 	width: 100%;
-    margin-top: 120px;
+	margin-top: 120px;
 }

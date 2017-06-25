@@ -5,6 +5,12 @@ var App = {
 		$.each(contributors, function() {
 			$.get(this.url + '?client_id=867563d42e4c9d5fda03&client_secret=43f406c798f11c2b6c7dd77a041839d21c3a4db4', function(user) {
 				App.markUser(user);
+			}).fail(function(response) {
+				if (response.status == 404) {
+					App.fail('Alguns usuários não foram encontrados.');
+				} else {
+					App.fail('Falha ao obter alguns usuários.');
+				}
 			});
 		});
 	},
@@ -38,15 +44,29 @@ var App = {
 
 						marker.icon = {url: 'images/marker.png'};
 						App.map.addMarker(marker);
+					} else {
+						App.fail('Falha ao obter a localização de alguns usuários.');
 					}
 				}
 			});
+		} else {
+			App.fail('Alguns usuários não possuem localização.');
 		}
 	},
 
-	search: function() {
+	clear: function() {
 		$('#map').css('height', $(window).height() - 124 + 'px');
 		$('.descricao-busca').remove();
+		$('.error-msg').hide();
+	},
+
+	fail: function(msg) {
+		$('.error-msg').show();
+		$('.error-msg span').text(msg);
+	},
+
+	search: function() {
+		App.clear();
 
 		App.map = new GMaps({
 			el: '#map',
@@ -81,6 +101,13 @@ var GitAPI = {
 	getRepo: function(path) {
 		$.get(GitAPI.getURI('/repos/' + path + '/contributors'), function(contributors) {
 			App.processContributors(contributors);
+			return true;
+		}).fail(function() {
+			if (response.status == 404) {
+				App.fail('Repositório não encontrado.');
+			} else {
+				App.fail('Falha ao obter o repositório.');
+			}
 		});
 	},
 
