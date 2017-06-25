@@ -47,15 +47,28 @@ var App = {
 				callback: function(results, status) {
 					if (status == 'OK') {
 						var latlng = results[0].geometry.location;
+						var boxContent = '<p><img height="200" width="200" src="' + user.avatar_url + '"></img></p><p><b>' + user.name + '</b></p>';
 						App.map.addMarker({
 							lat: latlng.lat(),
 							lng: latlng.lng(),
 							icon: {
 								'url': user.avatar_url,
-								'scaledSize': {'height': 20, 'width': 20}
+								'anchor': new google.maps.Point(7.5,47),
+								'scaledSize': {'height': 15, 'width': 15}
 							},
 							infoWindow: {
-								content: '<p><img src="' + user.avatar_url + '"></img></p><p><b>' + user.name + '</b></p>'
+								content: boxContent
+							}
+						});
+
+						App.map.addMarker({
+							lat: latlng.lat(),
+							lng: latlng.lng(),
+							icon: {
+								'url': 'images/marker.png'
+							},
+							infoWindow: {
+								content: boxContent
 							}
 						});
 					}
