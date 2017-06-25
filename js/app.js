@@ -47,19 +47,17 @@ var App = {
 				callback: function(results, status) {
 					if (status == 'OK') {
 						var latlng = results[0].geometry.location;
-						//App.map.setCenter(latlng.lat(), latlng.lng());
 						App.map.addMarker({
 							lat: latlng.lat(),
 							lng: latlng.lng(),
-							icon: 'https://hydra-media.cursecdn.com/wow.gamepedia.com/7/7a/Rep_unknown_icon_18x18.png?version=19089546ac3ebfa844febfcd49ac5cad'
+							icon: {
+								'url': user.avatar_url,
+								'scaledSize': {'height': 20, 'width': 20}
+							},
+							infoWindow: {
+								content: '<p><img src="' + user.avatar_url + '"></img></p><p><b>' + user.name + '</b></p>'
+							}
 						});
-						App.map.addMarker({
-							lat: latlng.lat() - 20,
-							lng: latlng.lng() - 20,
-							icon: 'https://hydra-media.cursecdn.com/wow.gamepedia.com/7/7a/Rep_unknown_icon_18x18.png?version=19089546ac3ebfa844febfcd49ac5cad'
-						});
-
-						console.log(user.location);
 					}
 				}
 			});
