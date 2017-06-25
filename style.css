@@ -63,9 +63,7 @@ html {
 
 .descricao-busca {
 	display: inline-block;
-	margin-top: -30px;
     margin-left: 370px;
-    position: absolute;
 }
 
 #map {
