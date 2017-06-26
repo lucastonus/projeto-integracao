@@ -28,12 +28,12 @@ var App = {
 							lng: latlng.lng(),
 							icon: {
 								url: user.avatar_url,
-								anchor: new google.maps.Point(7.5, 47),
-								scaledSize: {height: 15, width: 15}
+								anchor: new google.maps.Point(10, 51),
+								scaledSize: {height: 20, width: 20}
 							},
 							infoWindow: {
 								content: $('<div>').append(
-									$('<b>').text(user.name),
+									$('<b class="user-name">').text(user.name),
 									$('<br/>'),
 									$('<img>', {height: 200, width: 200, src: user.avatar_url, alt: user.login})
 								).prop('outerHTML')

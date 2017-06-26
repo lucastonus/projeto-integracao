@@ -8,6 +8,12 @@ html {
 	background-color: #72b1ff;
 }
 
+b.user-name {
+	display:block;
+	text-align:center;
+	font-size:12pt;
+}
+
 .box-search {
 	width: 100%;
 	height: 120px;
