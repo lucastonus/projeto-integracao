@@ -83,6 +83,7 @@ var App = {
 
 		$('.search-button').on('click', function() {
 			App.search();
+			App.displayWait();
 		});
 
 		$('#repository-address').on('keypress', function(event) {
@@ -94,6 +95,18 @@ var App = {
 		$('.box-search h1').on('click', function() {
 			window.open('https://github.com/lucastonus/projeto-integracao');
 		});
+	},
+
+	displayWait: function() {
+		$('#displayWait').show();
+		$('body').append(
+			$('<div>', {'class': 'wait'})
+		);
+	},
+
+	closeWait: function() {
+		$('#displayWait').hide();
+		$('div.wait').remove();
 	}
 };
 
@@ -105,8 +118,10 @@ var GitAPI = {
 		}).fail(function(response) {
 			if (response.status == 404) {
 				App.fail('Repositório não encontrado.');
+				App.closeWait();
 			} else {
 				App.fail('Falha ao obter o repositório.');
+				App.closeWait();
 			}
 		});
 	},
