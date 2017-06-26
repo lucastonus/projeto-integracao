@@ -102,7 +102,7 @@ var GitAPI = {
 		$.get(GitAPI.getURI('/repos/' + path + '/contributors'), function(contributors) {
 			App.processContributors(contributors);
 			return true;
-		}).fail(function() {
+		}).fail(function(response) {
 			if (response.status == 404) {
 				App.fail('Repositório não encontrado.');
 			} else {
