@@ -1,17 +1,26 @@
 var App = {
 	map: null,
+	semUsers: 0,
 
 	processContributors: function(contributors) {
+		App.semUsers = contributors.length;
 		$.each(contributors, function() {
-			$.get(this.url + '?client_id=867563d42e4c9d5fda03&client_secret=43f406c798f11c2b6c7dd77a041839d21c3a4db4', function(user) {
-				App.markUser(user);
-			}).fail(function(response) {
-				if (response.status == 404) {
-					App.fail('Alguns usuários não foram encontrados.');
-				} else {
-					App.fail('Falha ao obter alguns usuários.');
+			$.ajax({
+				url: this.url + '?' + GitAPI.getAuth(),
+				async: false,
+				success: function(user) {
+					App.markUser(user);
+				},
+				error: function(jqXHR, error) {
+					if (jqXHR.status == 404) {
+						App.fail('Alguns usuários não foram encontrados.');
+					} else {
+						App.fail('Falha ao obter alguns usuários.');
+					}
+
+					App.closeWait();
 				}
-			});
+			})
 		});
 	},
 
@@ -22,7 +31,6 @@ var App = {
 				callback: function(results, status) {
 					if (status == 'OK') {
 						var latlng = results[0].geometry.location;
-
 						var marker = {
 							lat: latlng.lat(),
 							lng: latlng.lng(),
@@ -37,20 +45,22 @@ var App = {
 									$('<br/>'),
 									$('<img>', {height: 200, width: 200, src: user.avatar_url, alt: user.login})
 								).prop('outerHTML')
-							}
+							},
+							zIndex: 1
 						}
 
 						App.map.addMarker(marker);
-
 						marker.icon = {url: 'images/marker.png'};
+						marker.zIndex = 2;
 						App.map.addMarker(marker);
-					} else {
-						App.fail('Falha ao obter a localização de alguns usuários.');
 					}
 				}
 			});
-		} else {
-			App.fail('Alguns usuários não possuem localização.');
+		}
+
+		App.semUsers--;
+		if (App.semUsers <= 0) {
+			App.closeWait();
 		}
 	},
 
@@ -72,7 +82,7 @@ var App = {
 			el: '#map',
 			lat: 0,
 			lng: 0,
-			zoom: 2
+			zoom: 3
 		});
 
 		GitAPI.getRepo($('#repository-address').val().trim());
@@ -111,6 +121,9 @@ var App = {
 };
 
 var GitAPI = {
+	CLIENT_ID: '867563d42e4c9d5fda03',
+	CLIENT_SECRET: '43f406c798f11c2b6c7dd77a041839d21c3a4db4',
+
 	getRepo: function(path) {
 		$.get(GitAPI.getURI('/repos/' + path + '/contributors'), function(contributors) {
 			App.processContributors(contributors);
@@ -127,7 +140,11 @@ var GitAPI = {
 	},
 
 	getURI: function(path) {
-		return 'https://api.github.com' + path + '?client_id=867563d42e4c9d5fda03&client_secret=43f406c798f11c2b6c7dd77a041839d21c3a4db4';
+		return 'https://api.github.com' + path + '?' + this.getAuth();
+	},
+
+	getAuth: function() {
+		return 'client_id=' + this.CLIENT_ID + '&client_secret=' + this.CLIENT_SECRET;
 	}
 };
 
